@@ -44,25 +44,30 @@ router
       .group(() => {
         router.get('/', [RoutesController, 'index']).as('routes.index')
       })
-      .prefix('routes').use(middleware.auth())
+      .prefix('routes')
+      .use(middleware.auth())
 
     router
       .group(() => {
         router.get('/', [WasteTypesController, 'index']).as('waste-types.index')
       })
-      .prefix('waste-types').use(middleware.auth())
+      .prefix('waste-types')
+      .use(middleware.auth())
 
     router
       .group(() => {
         router.get('/', [RequestTypesController, 'index']).as('request-types.index')
       })
-      .prefix('request-types').use(middleware.auth())
+      .prefix('request-types')
+      .use(middleware.auth())
 
     router
       .group(() => {
         router.post('/', [CollectionRequestsController, 'store']).as('collection-requests.index')
         router.get('/', [CollectionRequestsController, 'show']).as('collection-requests.show')
-        router.patch('/:id/status', [CollectionRequestsController, 'edit']).as('collection-requests.edit')
+        router
+          .patch('/:id/status', [CollectionRequestsController, 'edit'])
+          .as('collection-requests.edit')
       })
       .prefix('collection-requests')
       .use(middleware.auth())
@@ -97,11 +102,11 @@ router
         message: 'Hello, world!',
       }
     })
-
-    router.any('*', async ({ response }) => {
-      return response.status(404).json({
-        message: 'The requested route does not exist',
-      })
-    })
   })
   .prefix('api/v1')
+
+router.any('*', async ({ response }) => {
+  return response.status(404).json({
+    message: 'The requested route does not exist',
+  })
+})
