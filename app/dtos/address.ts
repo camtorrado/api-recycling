@@ -27,7 +27,7 @@ export default class AddressDto extends BaseModelDto {
     this.updatedAt = address.updatedAt.toISO()!
     this.userId = address.userId
     this.user = address.user && new UserDto(address.user)
-    this.locationId = address.locationId
+    // this.locationId = address.locationId
     this.location = address.location && new LocationDto(address.location)
   }
 }

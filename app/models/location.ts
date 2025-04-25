@@ -1,7 +1,6 @@
 import { DateTime } from 'luxon'
-import { BaseModel, belongsTo, column, hasMany } from '@adonisjs/lucid/orm'
-import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
-import Address from './address.js'
+import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import Route from './route.js'
 
 export default class Location extends BaseModel {
@@ -28,8 +27,8 @@ export default class Location extends BaseModel {
   @belongsTo(() => Route)
   declare route: BelongsTo<typeof Route>
 
-  @hasMany(() => Address)
-  declare addresses: HasMany<typeof Address>
+  // @hasMany(() => Address)
+  // declare addresses: HasMany<typeof Address>
 
   // Relational fields
 }

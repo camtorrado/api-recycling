@@ -23,7 +23,11 @@ export class UserService {
     user.subscriptionId = userData.subscriptionId ?? user.subscriptionId
     await user.save()
     await user.load('role')
-    return user
+    await user.load('subscription')
+    await user.load('addresses', (addressQuery) => {
+      addressQuery.preload('location')
+    })
+    return new UserDto(user)
   }
 
   /**
@@ -41,10 +45,11 @@ export class UserService {
       throw new Error('User not found')
     }
     await user.load('role')
+    await user.load('subscription')
     await user.load('addresses', (addressQuery) => {
       addressQuery.preload('location')
     })
-    return user
+    return new UserDto(user)
   }
 
   /**

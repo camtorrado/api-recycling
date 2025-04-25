@@ -17,7 +17,7 @@ export default class RouteDto extends BaseModelDto {
     this.id = route.id
     this.name = route.name
     this.description = route.description
-    // this.locations = LocationDto.fromArray(route.locations)
+    this.locations = LocationDto.fromArray(route.locations)
     this.createdAt = route.createdAt.toISO()!
     this.updatedAt = route.updatedAt.toISO()!
   }

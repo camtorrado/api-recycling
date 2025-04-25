@@ -1,3 +1,4 @@
+import CollectionRequestDto from '#dtos/collection_request'
 import CollectionRequest from '#models/collection_request'
 import RequestStatus from '#models/request_status'
 import Route from '#models/route'
@@ -162,7 +163,7 @@ export default class CollectionRequestService {
    * @returns {Promise<CollectionRequest>} The created collection request.
    * @throws {Error} If the schedule date is missing or if the request limits are exceeded.
    */
-  async createCollectionRequest(data: Partial<CollectionRequest>): Promise<CollectionRequest> {
+  async createCollectionRequest(data: Partial<CollectionRequest>): Promise<CollectionRequestDto> {
     const trx = await CollectionRequest.transaction()
 
     try {
@@ -199,7 +200,7 @@ export default class CollectionRequestService {
 
       const request = await CollectionRequest.create(data, { client: trx })
       await trx.commit()
-      return request
+      return new CollectionRequestDto(request)
     } catch (error) {
       await trx.rollback()
       throw error
@@ -263,13 +264,17 @@ export default class CollectionRequestService {
       query.where('request_status_id', filters.requestStatusId)
     }
 
-    return await query
-      .preload('user')
-      .preload('location')
-      .preload('wasteType')
-      .preload('requestType')
-      .preload('requestStatus')
-      .preload('shift') // esto es opcional, puedes quitarlo si no lo necesitas en la respuesta
+    return CollectionRequestDto.fromArray(
+      await query
+        // .preload('user', (userQuery) => {
+        //   userQuery.preload('addresses')
+        // })
+        // .preload('location')
+        // .preload('wasteType')
+        // .preload('requestType')
+        // .preload('requestStatus')
+        // .preload('shift')
+    )
   }
 
   /**
@@ -280,7 +285,7 @@ export default class CollectionRequestService {
    * @returns The updated collection request.
    * @throws Error if the request is not found.
    */
-  async updateStatus(id: number, requestStatusId: number): Promise<CollectionRequest> {
+  async updateStatus(id: number, requestStatusId: number): Promise<CollectionRequestDto> {
     const request = await CollectionRequest.find(id)
 
     if (!request) {
@@ -291,7 +296,6 @@ export default class CollectionRequestService {
     request.requestStatusId = requestStatusId
     request.requestStatusName = status.name
     await request.save()
-
-    return request
+    return new CollectionRequestDto(request)
   }
 }

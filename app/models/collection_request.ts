@@ -25,7 +25,7 @@ export default class CollectionRequest extends BaseModel {
   declare userNeighborhood: string
 
   @column()
-  declare userLocationName: string
+  declare userLocationName : string
 
   @column()
   declare wasteTypeName: string
