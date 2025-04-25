@@ -8,6 +8,7 @@ export class RoleService {
    * @returns {Promise<Role[]>} A promise that resolves to an array of all roles.
    */
   async getRoles() {
-    return RoleDto.fromArray(await Role.all())
+    const roles = await Role.query().where('name', '!=', 'Admin').orderBy('name', 'asc')
+    return RoleDto.fromArray(await roles)
   }
 }

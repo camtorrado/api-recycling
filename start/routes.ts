@@ -17,6 +17,8 @@ import UsersController from '#controllers/users_controller'
 import SubscriptionsController from '#controllers/subscriptions_controller'
 import WasteTypesController from '#controllers/waste_types_controller'
 import RequestTypesController from '#controllers/request_types_controller'
+import CollectionRequestsController from '#controllers/collection_requests_controller'
+import RoutesController from '#controllers/routes_controller'
 
 router
   .group(() => {
@@ -40,15 +42,30 @@ router
 
     router
       .group(() => {
+        router.get('/', [RoutesController, 'index']).as('routes.index')
+      })
+      .prefix('routes').use(middleware.auth())
+
+    router
+      .group(() => {
         router.get('/', [WasteTypesController, 'index']).as('waste-types.index')
       })
-      .prefix('waste-types')
+      .prefix('waste-types').use(middleware.auth())
 
     router
       .group(() => {
         router.get('/', [RequestTypesController, 'index']).as('request-types.index')
       })
-      .prefix('request-types')
+      .prefix('request-types').use(middleware.auth())
+
+    router
+      .group(() => {
+        router.post('/', [CollectionRequestsController, 'store']).as('collection-requests.index')
+        router.get('/', [CollectionRequestsController, 'show']).as('collection-requests.show')
+        router.patch('/:id/status', [CollectionRequestsController, 'edit']).as('collection-requests.edit')
+      })
+      .prefix('collection-requests')
+      .use(middleware.auth())
 
     router
       .group(() => {
@@ -62,19 +79,29 @@ router
         router.get('/', [UsersController, 'index']).as('users.index')
       })
       .prefix('users')
+      .use(middleware.auth())
 
     router
       .group(() => {
         router.post('/login', [AuthController, 'login']).as('auth.login')
         router.post('/register', [AuthController, 'register']).as('auth.register')
-        router.delete('/logout', [AuthController, 'logout']).use(middleware.auth()).as('auth.logout')
+        router
+          .delete('/logout', [AuthController, 'logout'])
+          .use(middleware.auth())
+          .as('auth.logout')
       })
       .prefix('auth')
 
     router.get('/', async () => {
       return {
-        hello: 'world',
+        message: 'Hello, world!',
       }
+    })
+
+    router.any('*', async ({ response }) => {
+      return response.status(404).json({
+        message: 'The requested route does not exist',
+      })
     })
   })
   .prefix('api/v1')

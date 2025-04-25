@@ -1,4 +1,5 @@
 import Address from '#models/address'
+import Company from '#models/company'
 import Role from '#models/role'
 import User from '#models/user'
 
@@ -16,7 +17,7 @@ export class AuthService {
   async register(userData: any, addressData: any) {
     // Begin a transaction
     const trx = await User.transaction()
-  
+
     try {
       // Create the user
       const user = new User()
@@ -28,7 +29,7 @@ export class AuthService {
       user.roleId = userData.roleId
       user.subscriptionId = userData.subscriptionId
       await user.save()
-  
+
       // Create the address
       const address = new Address()
       address.useTransaction(trx)
@@ -38,10 +39,19 @@ export class AuthService {
       address.locationId = addressData.locationId
       address.userId = user.id
       await address.save()
-  
+
+      // If the user is a company, create a company
+      const companyRole = await Role.findByOrFail('name', 'Company')
+      if (userData.roleId === companyRole.id) {
+        const company = new Company()
+        company.useTransaction(trx)
+        company.userId = user.id
+        await company.save()
+      }
+
       // Commit the transaction
       await trx.commit()
-  
+
       // Load the associated role and addresses
       await user.load('role')
       await user.load('addresses', (addressQuery) => {
@@ -52,7 +62,7 @@ export class AuthService {
       const role = await Role.find(user.roleId)
       const permission = role?.permission
       const accessToken = await User.accessTokens.create(user, permission)
-  
+
       return { user, accessToken }
     } catch (error) {
       await trx.rollback()
@@ -72,11 +82,11 @@ export class AuthService {
    * and their role.
    */
   async login(email: string, password: string) {
-    const user = await User.verifyCredentials(email, password);
-    const role = await Role.find(user.roleId);
-    const permission = role?.permission;
-    const accessToken = await User.accessTokens.create(user, permission);
-    await user.load('role');
+    const user = await User.verifyCredentials(email, password)
+    const role = await Role.find(user.roleId)
+    const permission = role?.permission
+    const accessToken = await User.accessTokens.create(user, permission)
+    await user.load('role')
     return {
       user: {
         ...user.toJSON(),

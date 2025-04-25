@@ -58,6 +58,6 @@ export default class User extends compose(BaseModel, AuthFinder) {
     prefix: 'oat_',
     table: 'auth_access_tokens',
     type: 'auth_token',
-    tokenSecretLength: 40
+    tokenSecretLength: 40,
   })
 }

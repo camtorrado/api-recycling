@@ -1,8 +1,7 @@
-import RequestTypeDto from "#dtos/request_type";
-import RequestType from "#models/request_type";
+import RequestTypeDto from '#dtos/request_type'
+import RequestType from '#models/request_type'
 
 export class RequestTypeService {
-
   /**
    * Fetches all request types from the database.
    *
