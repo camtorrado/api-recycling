@@ -64,9 +64,12 @@ export class UserService {
       query.where('subscriptionId', filter.subscriptionId)
     }
 
-    const users = await query.preload('role').preload('subscription').preload('addresses', (addressQuery) => {
-      addressQuery.preload('location')
-    })
+    const users = await query
+      .preload('role')
+      .preload('subscription')
+      .preload('addresses', (addressQuery) => {
+        addressQuery.preload('location')
+      })
 
     return UserDto.fromArray(users)
   }

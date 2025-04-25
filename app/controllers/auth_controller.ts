@@ -61,16 +61,16 @@ export default class AuthController {
     }
   }
 
-/**
- * Authenticates a user based on provided email and password.
- *
- * This method validates the login credentials using the login schema.
- * If the credentials are valid, it calls the AuthService to authenticate
- * the user and generate an access token.
- *
- * @param {HttpContext} ctx - The HTTP context containing request and response objects.
- * @returns {Promise<{ user: User, accessToken: string }>} The authenticated user and access token.
- */
+  /**
+   * Authenticates a user based on provided email and password.
+   *
+   * This method validates the login credentials using the login schema.
+   * If the credentials are valid, it calls the AuthService to authenticate
+   * the user and generate an access token.
+   *
+   * @param {HttpContext} ctx - The HTTP context containing request and response objects.
+   * @returns {Promise<{ user: User, accessToken: string }>} The authenticated user and access token.
+   */
   async login({ request }: HttpContext) {
     const { email, password } = await request.validateUsing(loginSchema)
     return await this.authService.login(email, password)
@@ -86,8 +86,8 @@ export default class AuthController {
    * a success message on successful logout.
    */
   async logout({ auth }: HttpContext) {
-    const user = auth.user!;
-    await User.accessTokens.delete(user, user.currentAccessToken.identifier);
-    return { message: "Successfully logged out" }
+    const user = auth.user!
+    await User.accessTokens.delete(user, user.currentAccessToken.identifier)
+    return { message: 'Successfully logged out' }
   }
 }

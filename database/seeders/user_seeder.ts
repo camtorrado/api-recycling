@@ -40,7 +40,7 @@ export default class extends BaseSeeder {
     await Address.create({
       mainAddress: true,
       street: 'Calle 123',
-      neighborhood: 'Any neighborhood',
+      neighborhood: 'Zona 1',
       locationId: usaquen.id,
       userId: superAdmin.id,
     })

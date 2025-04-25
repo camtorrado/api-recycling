@@ -21,7 +21,7 @@ export default class Location extends BaseModel {
   declare updatedAt: DateTime
 
   // Relational fields
-  
+
   @column()
   declare routeId: number | null
 

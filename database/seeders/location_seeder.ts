@@ -8,7 +8,6 @@ export default class extends BaseSeeder {
    * This method creates multiple location entries in the database for different
    * neighborhoods, each with its corresponding postal code range.
    */
-
   async run() {
     // Write your database queries inside the run method
     await Location.createMany([

@@ -10,7 +10,9 @@ export class AddressService {
    *   associated with the user.
    */
   async getAddresses(user_id: number) {
-    const addresses = AddressDto.fromArray(await Address.query().where('user_id', user_id).preload('location').exec())
+    const addresses = AddressDto.fromArray(
+      await Address.query().where('user_id', user_id).preload('location').exec()
+    )
     return addresses
   }
 

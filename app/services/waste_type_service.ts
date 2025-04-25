@@ -1,5 +1,5 @@
-import WasteTypeDto from "#dtos/waste_type";
-import WasteType from "#models/waste_type";
+import WasteTypeDto from '#dtos/waste_type'
+import WasteType from '#models/waste_type'
 
 export class WasteTypeService {
   /**
