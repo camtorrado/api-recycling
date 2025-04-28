@@ -36,6 +36,7 @@ export default class AuthController {
         phone: request.input('phone'),
         password: request.input('password'),
         roleId: request.input('roleId'),
+        subscriptionId: request.input('subscriptionId'),
       }
 
       const addressData = request.input('address')
