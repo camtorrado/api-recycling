@@ -61,7 +61,8 @@
     "luxon": "^3.6.1",
     "pdf-lib": "^1.17.1",
     "pg": "^8.15.1",
-    "reflect-metadata": "^0.2.2"
+    "reflect-metadata": "^0.2.2",
+    "ts-node": "^10.9.2"
   },
   "hotHook": {
     "boundaries": [
