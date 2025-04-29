@@ -241,6 +241,8 @@ export default class CollectionRequestService {
     wasteTypeId?: number
     requestTypeId?: number
     requestStatusId?: number
+    startDate?: string
+    endDate?: string
   }) {
     const query = CollectionRequest.query()
 
@@ -263,6 +265,14 @@ export default class CollectionRequestService {
     if (filters.requestStatusId) {
       query.where('request_status_id', filters.requestStatusId)
     }
+
+    if ((filters.startDate && !filters.endDate) || (!filters.startDate && filters.endDate)) {
+      throw new Error('Both startDate and endDate must be provided.');
+    }
+    
+    if (filters.startDate && filters.endDate) {
+      query.whereBetween('schedule_date', [filters.startDate, filters.endDate]);
+    }    
 
     return CollectionRequestDto.fromArray(
       await query

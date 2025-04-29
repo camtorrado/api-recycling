@@ -19,9 +19,16 @@ import WasteTypesController from '#controllers/waste_types_controller'
 import RequestTypesController from '#controllers/request_types_controller'
 import CollectionRequestsController from '#controllers/collection_requests_controller'
 import RoutesController from '#controllers/routes_controller'
+import ExportsController from '#controllers/exports_controller'
 
 router
   .group(() => {
+    router
+      .group(() => {
+        router.post('/pdf', [ExportsController, 'exportExcel']).as('exports.pdf')
+      })
+      .prefix('exports')
+
     router
       .group(() => {
         router.get('/', [RolesController, 'index']).as('roles.index')

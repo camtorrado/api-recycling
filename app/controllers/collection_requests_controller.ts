@@ -106,12 +106,14 @@ export default class CollectionRequestsController {
         wasteTypeId: filters.wasteTypeId ? Number(filters.wasteTypeId) : undefined,
         requestTypeId: filters.requestTypeId ? Number(filters.requestTypeId) : undefined,
         requestStatusId: filters.requestStatusId ? Number(filters.requestStatusId) : undefined,
+        startDate: filters.startDate ? filters.startDate : undefined,
+        endDate: filters.endDate ? filters.endDate : undefined,
       })
 
       return response.ok(result)
     } catch (error) {
-      console.error(error)
-      return response.status(500).json({ error: 'Error fetching collection requests' })
+      // console.error(error)
+      return response.status(500).json({ error: 'Error fetching collection requests', message: error.message })
     }
   }
 

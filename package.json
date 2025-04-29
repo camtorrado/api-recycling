@@ -59,6 +59,7 @@
     "@adonisjs/lucid": "^21.6.0",
     "@vinejs/vine": "^3.0.0",
     "luxon": "^3.6.1",
+    "pdf-lib": "^1.17.1",
     "pg": "^8.15.1",
     "reflect-metadata": "^0.2.2"
   },
